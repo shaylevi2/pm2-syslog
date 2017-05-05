@@ -1,7 +1,6 @@
 
-var pm2       = require('pm2');
-var SysLogger = require('ain2');
-var logger    = new SysLogger({tag: 'pm2',  facility: 'syslog'});
+var pm2 = require('pm2');
+var logger = require('modern-syslog');
 
 pm2.launchBus(function(err, bus) {
   bus.on('*', function(event, data){
@@ -19,6 +18,6 @@ pm2.launchBus(function(err, bus) {
   });
 
   bus.on('log:out', function(data) {
-    logger.log('app=%s id=%s line=%s', data.process.name, data.process.pm_id, data.data);
+    logger.info('app=%s id=%s line=%s', data.process.name, data.process.pm_id, data.data);
   });
 });
